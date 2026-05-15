@@ -17,7 +17,7 @@ jobs:
       - name: Install lcov
         run: sudo apt install lcov
       - name: Make coverage configuration file
-        run: lcov --capture --directory _build/banking --gcov-tool /usr/bin/gcov-11 --output-file=cov.info
+        run: lcov --capture --directory _build/banking --gcov-tool /usr/bin/gcov-13 --output-file=cov.info
       - name: Get coverage percentage
         run: lcov --list cov.info
       - name: Coveralls Upload
