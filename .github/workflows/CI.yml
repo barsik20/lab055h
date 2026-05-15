@@ -1,0 +1,28 @@
+name: coverage_in_linux
+on: push
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get repo files
+        uses: actions/checkout@v6
+        with:
+          submodules: true
+      - name: Configure build directory and options
+        run: cmake -H. -B _build -D BUILD_TESTS=ON -D COLLECT_COVERAGE=ON
+      - name: Build project
+        run: cmake --build _build
+      - name: Run tests
+        run: ./build/check
+      - name: Install lcov
+        run: sudo apt install lcov
+      - name: Make coverage configuration file
+        run: lcov --capture --directory _build/banking --gcov-tool /usr/bin/gcov-11 --output-file=cov.info
+      - name: Get coverage percentage
+        run: lcov --list cov.info
+      - name: Coveralls Upload
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          file: cov.info
+
