@@ -13,7 +13,7 @@ jobs:
       - name: Build project
         run: cmake --build _build
       - name: Run tests
-        run: ./build/check
+        run: ./_build/check
       - name: Install lcov
         run: sudo apt install lcov
       - name: Make coverage configuration file
